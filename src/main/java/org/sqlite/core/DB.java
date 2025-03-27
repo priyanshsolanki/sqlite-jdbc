@@ -1264,4 +1264,19 @@ public abstract class DB implements Codes {
     public abstract byte[] serialize(String schema) throws SQLException;
 
     public abstract void deserialize(String schema, byte[] buff) throws SQLException;
+
+    /**
+     * Sets the timeout value for the connection. A timeout value less than or equal to zero turns
+     * off all busy handlers.
+     *
+     * @see <a
+     *     href="https://www.sqlite.org/c3ref/busy_timeout.html">https://www.sqlite.org/c3ref/busy_timeout.html</a>
+     * @param timeoutMillis The timeout value in milliseconds.
+     * @throws SQLException
+     */
+    public void setBusyTimeout(int timeoutMillis) throws SQLException {
+        getConfig().setBusyTimeout(timeoutMillis);
+        busy_timeout(timeoutMillis);
+    }
+
 }

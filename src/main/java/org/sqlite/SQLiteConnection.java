@@ -380,20 +380,6 @@ public abstract class SQLiteConnection implements Connection {
         return db.getConfig().getBusyTimeout();
     }
 
-    /**
-     * Sets the timeout value for the connection. A timeout value less than or equal to zero turns
-     * off all busy handlers.
-     *
-     * @see <a
-     *     href="https://www.sqlite.org/c3ref/busy_timeout.html">https://www.sqlite.org/c3ref/busy_timeout.html</a>
-     * @param timeoutMillis The timeout value in milliseconds.
-     * @throws SQLException
-     */
-    public void setBusyTimeout(int timeoutMillis) throws SQLException {
-        db.getConfig().setBusyTimeout(timeoutMillis);
-        db.busy_timeout(timeoutMillis);
-    }
-
     public void setLimit(SQLiteLimits limit, int value) throws SQLException {
         // Calling sqlite3_limit with a negative number is a no-op:
         // https://www.sqlite.org/c3ref/limit.html
@@ -581,14 +567,6 @@ public abstract class SQLiteConnection implements Connection {
         return db.serialize(schema);
     }
 
-    /**
-     * Deserialize the schema using the given byte array. This method is intended for in-memory
-     * database. The call will replace the content of an existing schema. To make sure there is an
-     * existing schema, first execute ATTACH ':memory:' AS schema_name
-     *
-     * @param schema The schema to serialize
-     * @param buff The buffer to deserialize
-     */
     public void deserialize(String schema, byte[] buff) throws SQLException {
         db.deserialize(schema, buff);
     }

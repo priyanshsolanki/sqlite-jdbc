@@ -447,9 +447,6 @@ class SQLitePooledConnectionHandle extends SQLiteConnection {
     }
 
     @Override
-    public void setBusyTimeout(int timeoutMillis) {}
-
-    @Override
     public DB getDatabase() {
         return null;
     }

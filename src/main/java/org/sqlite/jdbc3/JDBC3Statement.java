@@ -452,14 +452,14 @@ public abstract class JDBC3Statement extends CoreStatement {
         int origBusyTimeout = conn.getBusyTimeout();
         if (queryTimeout > 0) {
             // SQLite handles busy timeout in milliseconds, JDBC in seconds
-            conn.setBusyTimeout(1000 * queryTimeout);
+            conn.getDatabase().setBusyTimeout(1000 * queryTimeout);
         }
         try {
             return callable.call();
         } finally {
             if (queryTimeout > 0) {
                 // reset connection timeout to the original value
-                conn.setBusyTimeout(origBusyTimeout);
+                conn.getDatabase().setBusyTimeout(origBusyTimeout);
             }
         }
     }

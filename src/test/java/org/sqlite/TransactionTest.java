@@ -65,7 +65,7 @@ public class TransactionTest {
         // Second transaction starts and tries to complete but fails because first is still running
         boolean gotException = false;
         try {
-            ((SQLiteConnection) conn2).setBusyTimeout(10);
+            ((SQLiteConnection) conn2).getDatabase().setBusyTimeout(10);
             conn2.setAutoCommit(false);
             if (pstat2 != null) {
                 // The prepared case would fail regardless of whether this was "execute" or
@@ -295,7 +295,7 @@ public class TransactionTest {
         ResultSet rs = stat1.executeQuery("select * from t;");
         assertThat(rs.next()).isTrue();
 
-        ((SQLiteConnection) conn2).setBusyTimeout(10);
+        ((SQLiteConnection) conn2).getDatabase().setBusyTimeout(10);
         assertThatExceptionOfType(SQLException.class)
                 .isThrownBy(
                         () -> stat2.executeUpdate("insert into t values (3);")); // can't be done
