@@ -2211,20 +2211,24 @@ public abstract class JDBC3DatabaseMetaData extends CoreDatabaseMetaData {
     private String unquoteIdentifier(String name) {
         if (name == null) return name;
         name = name.trim();
-        if (name.length() > 2
-                && ((name.startsWith("`") && name.endsWith("`"))
-                        || (name.startsWith("\"") && name.endsWith("\""))
-                        || (name.startsWith("[") && name.endsWith("]")))) {
+        if (isQuotedIdentifier(name)) {
             // unquote to be consistent with column names returned by getColumns()
             name = name.substring(1, name.length() - 1);
         }
         return name;
     }
 
-    /**
-     * Class-wrapper around the logger object to avoid build-time initialization of the logging
-     * framework in native-image
-     */
+    private boolean isQuotedIdentifier(String name) {
+        return name.length() > 2
+                && ((name.startsWith("`") && name.endsWith("`"))
+                || (name.startsWith("\"") && name.endsWith("\""))
+                || (name.startsWith("[") && name.endsWith("]")));
+    }
+
+        /**
+         * Class-wrapper around the logger object to avoid build-time initialization of the logging
+         * framework in native-image
+         */
     private static class LogHolder {
         private static final Logger logger = LoggerFactory.getLogger(JDBC3DatabaseMetaData.class);
     }
